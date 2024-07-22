@@ -38,11 +38,15 @@ const AppointmentForm = () => {
     const fetchDoctors = async () => {
       const { data } = await axios.get(
         "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/user/doctors",
-        { withCredentials: true,
+        {
+          withCredentials: true,
           headers: {
-            'Content-Type': 'application/json',
-          }
-         }
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin":
+              "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app",
+              "Access-Control-Allow-Origin":"GET,POST,PUT,DELETE"
+          },
+        }
       );
       setDoctors(data.doctors);
     };
@@ -53,7 +57,7 @@ const AppointmentForm = () => {
     e.preventDefault();
     try {
       const hasVisitedBool = Boolean(hasVisited);
-      const response= await axios.post(
+      const response = await axios.post(
         "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/appointment/post",
         {
           firstName,
