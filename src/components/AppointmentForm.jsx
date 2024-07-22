@@ -44,7 +44,7 @@ const AppointmentForm = () => {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin":
               "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app",
-              "Access-Control-Allow-Origin":"GET,POST,PUT,DELETE"
+            "Access-Control-Allow-Methods":"GET,POST,PUT,DELETE"
           },
         }
       );
