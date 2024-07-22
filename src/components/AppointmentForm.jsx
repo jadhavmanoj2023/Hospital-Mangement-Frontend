@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const AppointmentForm = () => {
@@ -8,15 +8,15 @@ const AppointmentForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [aadhar, setAadhar] = useState("");
-  const [dateOfBirth, setdateOfBirth] = useState("");
+  const [nic, setNic] = useState("");
+  const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
-  const [department, setDepartment] = useState("");
-  const [doctorsFirstName, setDoctorsFirstName] = useState("");
-  const [doctorsLastName, setDoctorsLastName] = useState("");
+  const [department, setDepartment] = useState("Pediatrics");
+  const [doctorFirstName, setDoctorFirstName] = useState("");
+  const [doctorLastName, setDoctorLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [hasVisited, setHasVisited] = useState("");
+  const [hasVisited, setHasVisited] = useState(false);
 
   const departmentsArray = [
     "Pediatrics",
@@ -24,75 +24,77 @@ const AppointmentForm = () => {
     "Cardiology",
     "Neurology",
     "Oncology",
-    "Radiiology",
+    "Radiology",
     "Physical Therapy",
     "Dermatology",
     "ENT",
   ];
 
-  const navigateTo = useNavigate();
-
   const [doctors, setDoctors] = useState([]);
-
   useEffect(() => {
     const fetchDoctors = async () => {
       const { data } = await axios.get(
         "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/user/doctors",
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin":
-              "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app",
-            "Access-Control-Allow-Methods":"GET,POST,PUT,DELETE"
-          },
+        { withCredentials: true ,
+          headers :{
+            "Content-Type": "application/json"
+          }
         }
       );
       setDoctors(data.doctors);
+      console.log(data.doctors);
     };
     fetchDoctors();
   }, []);
-
   const handleAppointment = async (e) => {
     e.preventDefault();
     try {
       const hasVisitedBool = Boolean(hasVisited);
-      const response = await axios.post(
+      const { data } = await axios.post(
         "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/appointment/post",
         {
           firstName,
           lastName,
           email,
           phone,
-          aadhar,
-          dateOfBirth,
+          nic,
+          dob,
           gender,
           appointment_date: appointmentDate,
           department,
-          doctor_firstName: doctorsFirstName,
-          doctor_lastName: doctorsLastName,
-          address,
+          doctor_firstName: doctorFirstName,
+          doctor_lastName: doctorLastName,
           hasVisited: hasVisitedBool,
+          address,
         },
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
-      toast.success(response.data.message);
-      navigateTo("/");
+      toast.success(data.message);
+      setFirstName(""),
+        setLastName(""),
+        setEmail(""),
+        setPhone(""),
+        setNic(""),
+        setDob(""),
+        setGender(""),
+        setAppointmentDate(""),
+        setDepartment(""),
+        setDoctorFirstName(""),
+        setDoctorLastName(""),
+        setHasVisited(""),
+        setAddress("");
     } catch (error) {
-      toast.error(error.response.data.message || "An error occured");
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <>
-      <div className="container form-component appointment-form ">
+      <div className="container form-component appointment-form">
         <h2>Appointment</h2>
-
         <form onSubmit={handleAppointment}>
           <div>
             <input
@@ -116,8 +118,8 @@ const AppointmentForm = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              type="tel"
-              placeholder="Phone Number"
+              type="number"
+              placeholder="Mobile Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -125,30 +127,28 @@ const AppointmentForm = () => {
           <div>
             <input
               type="number"
-              placeholder="aadhar"
-              value={aadhar}
-              onChange={(e) => setAadhar(e.target.value)}
+              placeholder="NIC"
+              value={nic}
+              onChange={(e) => setNic(e.target.value)}
             />
             <input
               type="date"
-              placeholder="Date Of Birth"
-              value={dateOfBirth}
-              onChange={(e) => setdateOfBirth(e.target.value)}
+              placeholder="Date of Birth"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
             />
           </div>
           <div>
             <select value={gender} onChange={(e) => setGender(e.target.value)}>
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
             <input
               type="date"
               placeholder="Appointment Date"
               value={appointmentDate}
-              onChange={(e) => {
-                setAppointmentDate(e.target.value);
-              }}
+              onChange={(e) => setAppointmentDate(e.target.value)}
             />
           </div>
           <div>
@@ -156,8 +156,8 @@ const AppointmentForm = () => {
               value={department}
               onChange={(e) => {
                 setDepartment(e.target.value);
-                setDoctorsFirstName("");
-                setDoctorsLastName("");
+                setDoctorFirstName("");
+                setDoctorLastName("");
               }}
             >
               {departmentsArray.map((depart, index) => {
@@ -169,35 +169,31 @@ const AppointmentForm = () => {
               })}
             </select>
             <select
-              value={`${doctorsFirstName} ${doctorsLastName}`}
+              value={`${doctorFirstName} ${doctorLastName}`}
               onChange={(e) => {
                 const [firstName, lastName] = e.target.value.split(" ");
-                setDoctorsFirstName(firstName);
-                setDoctorsLastName(lastName);
+                setDoctorFirstName(firstName);
+                setDoctorLastName(lastName);
               }}
               disabled={!department}
             >
               <option value="">Select Doctor</option>
               {doctors
                 .filter((doctor) => doctor.doctorDepartment === department)
-                .map((doctor, index) => {
-                  return (
-                    <option
-                      value={`${doctor.firstName} ${doctor.lastName}`}
-                      key={index}
-                    >
-                      {doctor.firstName} {doctor.lastName}
-                    </option>
-                  );
-                })}
+                .map((doctor, index) => (
+                  <option
+                    value={`${doctor.firstName} ${doctor.lastName}`}
+                    key={index}
+                  >
+                    {doctor.firstName} {doctor.lastName}
+                  </option>
+                ))}
             </select>
           </div>
           <textarea
             rows="10"
             value={address}
-            onChange={(e) => {
-              setAddress(e.target.value);
-            }}
+            onChange={(e) => setAddress(e.target.value)}
             placeholder="Address"
           />
           <div
@@ -215,10 +211,7 @@ const AppointmentForm = () => {
               style={{ flex: "none", width: "25px" }}
             />
           </div>
-
-          <div style={{ justifyContent: "center", alignItems: "center" }}>
-            <button type="submit">GET APPOINTMENT</button>
-          </div>
+          <button style={{ margin: "0 auto" }}>GET APPOINTMENT</button>
         </form>
       </div>
     </>
