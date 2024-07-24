@@ -8,7 +8,7 @@ const AppointmentForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [nic, setNic] = useState("");
+  const [aadhar, setaadhar] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -34,7 +34,7 @@ const AppointmentForm = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       const { data } = await axios.get(
-        "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/user/doctors",
+        "https://hospital-management-backend-s3i5.onrender.com/api/v1/user/doctors",
         { withCredentials: true ,
           headers :{
             "Content-Type": "application/json"
@@ -51,13 +51,13 @@ const AppointmentForm = () => {
     try {
       const hasVisitedBool = Boolean(hasVisited);
       const { data } = await axios.post(
-        "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/appointment/post",
+        "https://hospital-management-backend-s3i5.onrender.com/api/v1/appointment/post",
         {
           firstName,
           lastName,
           email,
           phone,
-          nic,
+          aadhar,
           dob,
           gender,
           appointment_date: appointmentDate,
@@ -77,7 +77,7 @@ const AppointmentForm = () => {
         setLastName(""),
         setEmail(""),
         setPhone(""),
-        setNic(""),
+        setaadhar(""),
         setDob(""),
         setGender(""),
         setAppointmentDate(""),
@@ -128,8 +128,8 @@ const AppointmentForm = () => {
             <input
               type="number"
               placeholder="NIC"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
+              value={aadhar}
+              onChange={(e) => setaadhar(e.target.value)}
             />
             <input
               type="date"

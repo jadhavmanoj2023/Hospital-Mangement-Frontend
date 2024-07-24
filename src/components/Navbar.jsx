@@ -1,10 +1,9 @@
-
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../main";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {GiHamburgerMenu} from "react-icons/gi"
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
@@ -12,8 +11,9 @@ const Navbar = () => {
   const navigateTo = useNavigate();
 
   const handleLogout = async () => {
+    setShow(!show)
     await axios
-      .get("https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/user/patient/logout", {
+      .get("https://hospital-management-backend-s3i5.onrender.com/api/v1/user/patient/logout", {
         withCredentials: true,
       })
       .then((res) => {
@@ -26,18 +26,27 @@ const Navbar = () => {
   };
 
   const gotoLogin = () => {
-    navigateTo("/login")
+    setShow(!show)
+    navigateTo("/login");
   };
 
   return (
     <nav>
-      <div className="logo">                <img src="/logo.png" alt="logo" className="logo-img" />
+      <div className="logo">
+        {" "}
+        <img src="/logo.png" alt="logo" className="logo-img" />
       </div>
       <div className={show ? "navLinks showmenu" : "navLinks"}>
         <div className="links">
-          <Link to={"/"}>HOME</Link>
-          <Link to={"/appointment"}>APPOINTMENTS</Link>
-          <Link to={"/about"}>ABOUT US</Link>
+          <Link to="/" onClick={() => setShow(!show)}>
+            HOME
+          </Link>
+          <Link to="/appointment" onClick={() => setShow(!show)}>
+            APPOINTMENTS
+          </Link>
+          <Link to="/about" onClick={() => setShow(!show)}>
+            ABOUT US
+          </Link>
         </div>
         {isAuthenticated ? (
           <button className="logoutBtn btn" onClick={handleLogout}>
@@ -49,7 +58,11 @@ const Navbar = () => {
           </button>
         )}
       </div>
-      <div className="hamburger" onClick={() => setShow(!show)}>
+      <div
+        className="hamburger"
+        onClick={() => setShow(!show)}
+        aria-label="Toggle menu"
+      >
         <GiHamburgerMenu />
       </div>
     </nav>

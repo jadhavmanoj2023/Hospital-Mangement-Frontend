@@ -22,7 +22,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://hospital-management-backend-6v1yozd41-jadhavmanoj2023s-projects.vercel.app/api/v1/user/patient/register",
+        "https://hospital-management-backend-s3i5.onrender.com/api/v1/user/patient/register",
         { firstName,lastName,email,password,aadhar,dateOfBirth,gender,phone},
         {
           withCredentials: true,
