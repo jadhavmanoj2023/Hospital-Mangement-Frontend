@@ -56,7 +56,9 @@ const Navbar = () => {
           <button className="logoutBtn btn" onClick={gotoLogin}>
             LOGIN
           </button>
+
         )}
+        <Link to={"https://hospital-management-dashboard-steel.vercel.app/"} >Admin Dashboard</Link>
       </div>
       <div
         className="hamburger"
