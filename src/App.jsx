@@ -30,6 +30,7 @@ const App = () => {
         setUser({});
       }
     };
+    fetchUser();
   }, [isAuthenticated]);
   return (
     <>
