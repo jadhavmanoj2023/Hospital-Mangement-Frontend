@@ -11,11 +11,14 @@ const Navbar = () => {
   const navigateTo = useNavigate();
 
   const handleLogout = async () => {
-    setShow(!show)
+    setShow(!show);
     await axios
-      .get("https://hospital-management-backend-s3i5.onrender.com/api/v1/user/patient/logout", {
-        withCredentials: true,
-      })
+      .get(
+        "https://hospital-management-backend-s3i5.onrender.com/api/v1/user/patient/logout",
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         toast.success(res.data.message);
         setIsAuthenticated(false);
@@ -26,7 +29,7 @@ const Navbar = () => {
   };
 
   const gotoLogin = () => {
-    setShow(!show)
+    setShow(!show);
     navigateTo("/login");
   };
 
@@ -56,9 +59,14 @@ const Navbar = () => {
           <button className="logoutBtn btn" onClick={gotoLogin}>
             LOGIN
           </button>
-
         )}
-        <Link className= "logoutBtn btn" to={"https://hospital-management-dashboard-steel.vercel.app/"} >Admin Dashboard</Link>
+        <Link
+          className="logoutBtn btn"
+          style={{ textDecoration: "none" }}
+          to={"https://hospital-management-dashboard-steel.vercel.app/"}
+        >
+          AdminDashboard
+        </Link>
       </div>
       <div
         className="hamburger"
