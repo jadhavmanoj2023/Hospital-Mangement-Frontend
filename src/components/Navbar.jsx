@@ -58,7 +58,7 @@ const Navbar = () => {
           </button>
 
         )}
-        <Link to={"https://hospital-management-dashboard-steel.vercel.app/"} >Admin Dashboard</Link>
+        <Link className= "logoutBtn btn" to={"https://hospital-management-dashboard-steel.vercel.app/"} >Admin Dashboard</Link>
       </div>
       <div
         className="hamburger"
