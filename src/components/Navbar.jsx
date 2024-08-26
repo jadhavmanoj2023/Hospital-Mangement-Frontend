@@ -63,7 +63,7 @@ const Navbar = () => {
         <Link
           className="logoutBtn btn"
           style={{ textDecoration: "none" }}
-          to={"https://hospital-management-dashboard-steel.vercel.app/"}
+          to={"https://hospital-management-dashboard-56dl.onrender.com/login"}
         >
           AdminDashboard
         </Link>
